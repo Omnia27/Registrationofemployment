@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    
+
+}
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are You Sure you want remove this item ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="deleteCategory()" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+--show details
+<div class="modal fade" id="showdetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">< %= Html.TextBox("Name", Model.name) %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="deleteCategory()" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+    <li class="active">
+     <a  data-toggle="tab" href="#firsttab"> ALL Employees</a> 
+    </li>
+    <li>
+        <a data-toggle="tab" href="#secondtab"> Add new Employee</a>
+</li>
+</ul>
+<div class="tab-content">
+    <div id="firsttab" class="tab-pane fade in active">   @Html.Action("ViewAllEmp")</div>
+    <div id="secondtab" class="tab-pane fade in"> @Html.Action("AddOrEdit")</div>
+
+</div>
+
+@section scripts{
+
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<script>
+    var deletedId = 0;
+
+    function showModal(id) {
+        $("#deleteModal").modal();
+        deletedId = id;
+
+    }
+    function showDetails(id) {
+        $("#showdetails").modal();
+      
+
+    }
+
+    function deleteCategory() {
+        $.ajax({
+            url: "/Employee/Delete/" + deletedId,
+            type: "post",
+            success: function (data) {
+                location.reload();
+            },
+            error: function (a1) {
+                console.log(a1);
+            }
+        });
+    }
+</script>
+
+    }
